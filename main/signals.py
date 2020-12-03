@@ -65,8 +65,8 @@ def send_sms(sender, instance=None, **kwargs):
     if instance is not None:
         if instance.patient.is_used is not True:
             data = {
-                "username": "smsleak",
-                "password": "smsleak",
+                "username": settings.GBN_USERNAME,
+                "password": settings.GBN_PASSWORD,
                 "sender": "ESH Survey",
                 "recipient": str(instance.patient.mobile_number),
                 "message": "We don wire you money o! check your aza",
