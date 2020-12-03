@@ -43,6 +43,7 @@ class Patient(models.Model):
     )
     account_name = models.CharField(max_length=250, blank=True, null=False)
     account_number = models.CharField(max_length=250, blank=True, null=True)
+    mobile_number = models.CharField(max_length=20, blank=True, null=True)
     email = models.EmailField(max_length=254, blank=True, null=False)
     bank_name = models.CharField(max_length=250, blank=True, null=True)
     is_used = models.BooleanField(default=False)
