@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'main',
     'rest_framework',
-
+    'drf_yasg',
 ]
 
 SITE_ID = 1
@@ -63,7 +63,7 @@ ROOT_URLCONF = 'root.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'main/templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -141,3 +141,16 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MAILGUN_API_KEY = os.getenv('MAILGUN_API_KEY')
+DEFAULT_EMAIL = os.getenv('DEFAULT_EMAIL')
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'api_key': {
+            'type': 'apiKey',
+            'in': 'header',
+            'name': 'Authorization'
+        }
+    },
+    'USE_SESSION_AUTH': False,
+}
+

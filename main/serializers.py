@@ -1,12 +1,12 @@
 from rest_framework import serializers
 from .models import Question, Answer
 
+
 class QuestionSerializer(serializers.ModelSerializer):
-	class Meta:
-		model = Question
-		fields = "__all__"
+    class Meta:
+        model = Question
+        fields = "__all__"
 
 
 class AnswerSerializer(serializers.Serializer):
-	text = serializers.ListField(
-		child=serializers.JSONField())
+    text = serializers.ListField(child=serializers.JSONField())

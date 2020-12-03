@@ -16,8 +16,8 @@ class QuestionAdmin(admin.ModelAdmin):
 
 @admin.register(models.Answer)
 class AnswerAdmin(admin.ModelAdmin):
-	list_filter = ["id", "text", "question_id"]
-	list_display = ["id", "text", "question_id"]
+	list_filter = ["id", "text", "question", "patient"]
+	list_display = ["id", "text", "question", "patient"]
 
 
 @admin.register(models.Patient)
