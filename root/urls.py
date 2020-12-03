@@ -15,8 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from drf_yasg import openapi
-from drf_yasg.views import SwaggerUIRenderer, get_schema_view
+from drf_yasg2 import openapi
+from drf_yasg2.views import SwaggerUIRenderer, get_schema_view
 from rest_framework.permissions import AllowAny
 from main.views import survey
 
