@@ -46,7 +46,7 @@ class Patient(models.Model):
     account_number = models.CharField(max_length=250, blank=True, null=True)
     mobile_number = models.CharField(max_length=20, blank=True, null=True)
     email = models.EmailField(max_length=254, blank=True, null=False)
-    bank_name = models.CharField(max_length=6, choices=BANKS, default='')
+    bank_name = models.TextField(choices=BANKS, default='')
     is_used = models.BooleanField(default=False)
     last_modified = models.DateTimeField(auto_now=True)
     survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
