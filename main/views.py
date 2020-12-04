@@ -2,11 +2,14 @@ from django.http import Http404
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from drf_yasg2.utils import swagger_auto_schema
 from .models import Patient, Question, Answer
 from .serializers import QuestionSerializer, AnswerSerializer
 import uuid
 
 
+@swagger_auto_schema(method='get', operation_description="GET /{survey_id}/{uuid}/", tags=["Survey"])
+@swagger_auto_schema(method='post', operation_description="POST /{survey_id}/{uuid}/", request_body=AnswerSerializer, tags=["Survey"])
 @api_view(["GET", "POST"])
 def survey(request, survey_id, uuid):
     try:
