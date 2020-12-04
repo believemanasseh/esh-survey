@@ -43,12 +43,14 @@ INSTALLED_APPS = [
     'main',
     'rest_framework',
     'drf_yasg2',
+    'corsheaders',
 ]
 
 SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -156,3 +158,7 @@ SWAGGER_SETTINGS = {
     'USE_SESSION_AUTH': False,
 }
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "https://api-eshsurvey.herokuapp.com",
+]
