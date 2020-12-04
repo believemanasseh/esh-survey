@@ -158,7 +158,4 @@ SWAGGER_SETTINGS = {
     'USE_SESSION_AUTH': False,
 }
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "https://esh-survey.herokuapp.com",
-]
+CORS_ALLOW_ALL_ORIGINS = True
