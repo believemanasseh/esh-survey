@@ -24,3 +24,8 @@ class AnswerAdmin(admin.ModelAdmin):
 class PatientAdmin(admin.ModelAdmin):
 	list_filter = ["uuid", "account_name", "bank_name", "is_used"]
 	list_display = ["uuid", "account_name", "bank_name", "is_used"]
+
+
+admin.site.site_title = "ESH Survey"
+admin.site.site_header = "ESH Survey Administration"
+admin.site.index_title = "Admin Panel"
