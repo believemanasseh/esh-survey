@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.conf import settings
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+from .constants import BANKS
 import uuid
 
 
@@ -27,7 +28,7 @@ class Question(models.Model):
 
     survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
     title = models.CharField(max_length=250, blank=True, null=False)
-    answer_type = models.CharField(max_length=20, choices=ANSWER_TYPE)
+    answer_type = models.CharField(max_length=20, choices=ANSWER_TYPE, default='')
     options = models.TextField(blank=True, null=True)
     ratings = models.TextField(blank=True, null=True)
     serial_no = models.IntegerField(default=0)
@@ -45,7 +46,7 @@ class Patient(models.Model):
     account_number = models.CharField(max_length=250, blank=True, null=True)
     mobile_number = models.CharField(max_length=20, blank=True, null=True)
     email = models.EmailField(max_length=254, blank=True, null=False)
-    bank_name = models.CharField(max_length=250, blank=True, null=True)
+    bank_name = models.CharField(max_length=3, choices=BANKS, default='')
     is_used = models.BooleanField(default=False)
     last_modified = models.DateTimeField(auto_now=True)
     survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
