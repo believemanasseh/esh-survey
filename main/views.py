@@ -60,7 +60,7 @@ def survey(request, survey_id, uuid):
                         "status": "error",
                         "message": "Invalid link",
                     },
-                    status=status.HTTP_404_DOES_NOT_EXIST,
+                    status=status.HTTP_404_NOT_FOUND,
                 )
 
             for obj in text:
