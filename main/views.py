@@ -37,14 +37,15 @@ def survey(request, survey_id, uuid):
                     "status": "error",
                     "message": "Invalid link",
                 },
-                status=status.HTTP_404_DOES_NOT_EXIST,
+                status=status.HTTP_404_NOT_FOUND,
             )
 
         return Response(
             {
                 "status": "success",
                 "message": "Survey retreived successfully",
-                "survey_title": questions[0].survey.title,
+                "title": questions[0].survey.title,
+                "description": questions[0].survey.description,
                 "data": {"questions": serializer.data},
             },
             status=status.HTTP_200_OK,
