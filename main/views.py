@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from drf_yasg2.utils import swagger_auto_schema
-from .models import Patient, Question, Answer
+from .models import Survey, Patient, Question, Answer
 from .serializers import QuestionSerializer, AnswerSerializer
 import uuid
 
@@ -66,8 +66,12 @@ def survey(request, survey_id, uuid):
 
             for obj in text:
                 question = Question.objects.get(id=obj["question"])
+                survey = Survey.objects.get(id=survey_id)
                 Answer.objects.create(
-                    text=obj["text"], question=question, patient=patient
+                    text=obj["text"],
+                    question=question,
+                    patient=patient,
+                    survey=survey,
                 )
 
             return Response(

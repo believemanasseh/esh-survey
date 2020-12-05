@@ -59,6 +59,8 @@ class Answer(models.Model):
     patient = models.ForeignKey(
         Patient, on_delete=models.CASCADE, blank=True, null=True
     )
-
+    survey = models.ForeignKey(
+    	Survey, on_delete=models.CASCADE, blank=True, null=True
+    )
     def __str__(self):
         return self.text

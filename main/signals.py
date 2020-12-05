@@ -19,7 +19,7 @@ def send_survey_link(sender, instance=None, **kwargs):
 			"send_survey_link.html", {"survey_id": survey_id, "uuid": unique_id}
 		)
 
-		if instance.is_used is not True:
+		if instance.is_used is False:
 			response = session.post(
 				"https://api.mailgun.net/v3/sandbox5301a79097994dd5a621705473034cc2.mailgun.org/messages",
 				auth=("api", settings.MAILGUN_API_KEY),
@@ -59,19 +59,19 @@ def send_acknowledgement(sender, instance=None, **kwargs):
 
 def send_sms(sender, instance=None, **kwargs):
 	if instance is not None:
-		if instance.patient.is_used != True:
+		if instance.patient.is_used is False:
 			data = {
 				"username": settings.GBN_USERNAME,
 				"password": settings.GBN_PASSWORD,
 				"sender": "ESH Survey",
-				"recipient": str(instance.patient.mobile_number),
-				"message": "We don wire you money o! check your aza",
+				"recipient": instance.patient.mobile_number,
+				"message": "We don wire you money o! check your aza"
 			}
 
 			import requests
 
 			response = requests.post(
-				"http://biz.gbnmobile.com/components/com_spc/smsapi.php",
+				"https://biz.gbnmobile.com/components/com_spc/smsapi.php",
 				data=json.dumps(data),
 			)
 
