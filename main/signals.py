@@ -13,6 +13,7 @@ import random
 from background_task import background
 
 
+@background(schedule=15)
 def send_survey_link(sender, instance=None, **kwargs):
 	if instance is not None:
 		unique_id = instance.uuid
@@ -36,7 +37,7 @@ def send_survey_link(sender, instance=None, **kwargs):
 			)
 
 
-
+@background(schedule=15)
 def send_sms(sender, instance=None, **kwargs):
 	if instance is not None:
 		if instance.patient.is_used is False:
@@ -66,6 +67,7 @@ def random_alphanumeric(length=6):
     return result
 
 
+@background(schedule=15)
 def send_money(sender, instance=None, **kwargs):
 	if instance is not None:
 		if instance.patient.is_used is False:
@@ -100,6 +102,7 @@ def send_money(sender, instance=None, **kwargs):
 		print(req.json())
 
 
+@background(schedule=15)
 def send_acknowledgement(sender, instance=None, **kwargs):
 	if instance is not None:
 		patient_email = instance.patient.email
@@ -128,20 +131,17 @@ def send_acknowledgement(sender, instance=None, **kwargs):
 		patient.save()
 
 
-@background(schedule=15)
+
 post_save.connect(
 	send_survey_link, sender=Patient, dispatch_uid="send_survey_link"
 )
 
-@background(schedule=15)
 post_save.connect(send_sms, sender=Answer, dispatch_uid="send_sms")
 
-@background(schedule=15)
 post_save.connect(
 	send_money, sender=Answer, dispatch_uid="send_money"
 )
 
-@background(schedule=15)
 post_save.connect(
 	send_acknowledgement, sender=Answer, dispatch_uid="send_acknowledgement"
 )
