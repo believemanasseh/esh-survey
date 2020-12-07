@@ -61,8 +61,8 @@ def send_sms(sender, instance=None, **kwargs):
 	if instance is not None:
 		if instance.patient.is_used is False:
 			data = {
-				"username": settings.GBN_USERNAME,
-				"password": settings.GBN_PASSWORD,
+				"username": settings.SMS_USERNAME,
+				"password": settings.SMS_PASSWORD,
 				"sender": "ESH Survey",
 				"recipient": instance.patient.mobile_number,
 				"message": "We don wire you money o! check your aza"
@@ -71,7 +71,7 @@ def send_sms(sender, instance=None, **kwargs):
 			import requests
 
 			response = requests.post(
-				"https://biz.gbnmobile.com/components/com_spc/smsapi.php",
+				"https://sms.com.ng/api",
 				data=json.dumps(data),
 			)
 
