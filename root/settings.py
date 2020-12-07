@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_yasg2',
     'corsheaders',
+    'background_task',
 ]
 
 SITE_ID = 1
@@ -144,7 +145,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MAILGUN_API_KEY = os.getenv('MAILGUN_API_KEY')
 DEFAULT_EMAIL = os.getenv('DEFAULT_EMAIL')
-SMS_USERNAME = os.getenv('SMS_USERNAME')
+SMS_USER = os.getenv('SMS_USER')
 SMS_PASSWORD = os.getenv('SMS_PASSWORD')
 
 SWAGGER_SETTINGS = {
@@ -159,3 +160,7 @@ SWAGGER_SETTINGS = {
 }
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+MAX_ATTEMPTS = 5
+BACKGROUND_TASK_RUN_ASYNC = True
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 10240
