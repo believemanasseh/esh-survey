@@ -6,6 +6,7 @@ from drf_yasg2.utils import swagger_auto_schema
 from .models import Survey, Patient, Question, Answer
 from .serializers import QuestionSerializer, AnswerSerializer
 import uuid
+import json
 
 
 @swagger_auto_schema(
@@ -26,8 +27,14 @@ def survey(request, survey_id, uuid):
         questions = Question.objects.filter(
             survey__id=survey_id,
         )
-    except Question.DoesNotExist:
-        raise Http404
+    except Exception:
+        return Response(
+        	{
+	        	"status": "error",
+	        	"message": "Invalid link"
+        	},
+        	status=status.HTTP_404_NOT_FOUND,
+        )
 
     if request.method == "GET":
         serializer = QuestionSerializer(questions, many=True)
