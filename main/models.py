@@ -11,6 +11,7 @@ class Survey(models.Model):
     end_date = models.DateTimeField(default=timezone.now)
     reward_amount = models.IntegerField(default=0)
     description = models.TextField(blank=True, null=True)
+    logo = models.ImageField(upload_to="uploads/%Y/%m/%d/", default="")
 
     def __str__(self):
         return self.title

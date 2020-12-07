@@ -8,6 +8,8 @@ _pycache__/
 .python-version
 Pipfile
 .Python
+staticfiles/
+.gitignore
 build/
 develop-eggs/
 dist/
