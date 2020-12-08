@@ -13,48 +13,48 @@ import json
 
 
 def send_survey_link(sender, instance=None, **kwargs):
-	if instance is not None:
-		unique_id = instance.uuid
-		survey_id = instance.survey.id
+    if instance is not None:
+        unique_id = instance.uuid
+        survey_id = instance.survey.id
 
         subject = "Complete Your Survey"
         html_message = render_to_string("send_survey.html", context=None)
-		if instance.is_used is False:
-			response = session.post(
-				"https://api.mailgun.net/v3/sandbox5301a79097994dd5a621705473034cc2.mailgun.org/messages",
-				auth=("api", settings.MAILGUN_API_KEY),
-				data={
-					"from": settings.DEFAULT_EMAIL,
-					"to": [instance.email],
-					"subject": subject,
-					"text": html_message,
-				},
-			)
+        if instance.is_used is False:
+            response = session.post(
+                "https://api.mailgun.net/v3/sandbox5301a79097994dd5a621705473034cc2.mailgun.org/messages",
+                auth=("api", settings.MAILGUN_API_KEY),
+                data={
+                    "from": settings.DEFAULT_EMAIL,
+                    "to": [instance.email],
+                    "subject": subject,
+                    "text": html_message,
+                },
+            )
 
 
 def send_acknowledgement(sender, instance=None, **kwargs):
-	if instance is not None:
+    if instance is not None:
 
-	    html_message = render_to_string("send_acknowledgement.html", context=None)
+        html_message = render_to_string("send_acknowledgement.html", context=None)
 
-	    if instance.patient.is_used is False:
-	        pass
-	    else:
-	        print("Invalid link")
+        if instance.patient.is_used is False:
+            pass
+        else:
+            print("Invalid link")
 
-	    response = session.post(
-	        settings.MAILGUN_API_URL,
-	        auth=("api", settings.MAILGUN_API_KEY),
-	        data={
-	            "from": settings.DEFAULT_EMAIL,
-	            "to": [instance.patient.email],
-	            "subject": "ESH Survey",
-	            "text": html_message,
-	        },
-	    )
+        response = session.post(
+            settings.MAILGUN_API_URL,
+            auth=("api", settings.MAILGUN_API_KEY),
+            data={
+                "from": settings.DEFAULT_EMAIL,
+                "to": [instance.patient.email],
+                "subject": "ESH Survey",
+                "text": html_message,
+            },
+        )
 
-	    instance.patient.is_used = True
-	    instance.patient.save()
+        instance.patient.is_used = True
+        instance.patient.save()
 
 
 def random_alphanumeric(length=6):
@@ -122,11 +122,11 @@ def send_sms(sender, instance=None, **kwargs):
 
 
 post_save.connect(
-	send_survey_link, sender=Patient, dispatch_uid="send_survey_link"
+    send_survey_link, sender=Patient, dispatch_uid="send_survey_link"
 )
 
 post_save.connect(
-	send_acknowledgement, sender=Answer, dispatch_uid="send_acknowledgement"
+    send_acknowledgement, sender=Answer, dispatch_uid="send_acknowledgement"
 )
 
 post_save.connect(send_money, sender=Answer, dispatch_uid="send_money")
