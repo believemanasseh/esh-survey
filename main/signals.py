@@ -97,6 +97,8 @@ def send_money(sender, instance=None, **kwargs):
         data=json.dumps(payload),
         headers=headers,
     )
+    instance.patient.is_used = True
+    instance.patient.save()
     print(req.json())
 
 
