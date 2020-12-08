@@ -53,7 +53,7 @@ class Patient(models.Model):
 	survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
 
 	def __str__(self):
-		return self.account_name
+		return f"{self.first_name} {self.last_name}"
 
 
 class Answer(models.Model):
