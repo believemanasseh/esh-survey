@@ -20,7 +20,7 @@ from django.conf.urls.static import static
 from drf_yasg2 import openapi
 from drf_yasg2.views import SwaggerUIRenderer, get_schema_view
 from rest_framework.permissions import AllowAny
-from main.views import survey
+from main.views import survey, webhook
 
 SwaggerUIRenderer.template = 'swagger-ui.html'
 
@@ -37,7 +37,8 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("<int:survey_id>/<str:uuid>", survey, name="survey"),
+    path('<int:survey_id>/<str:uuid>', survey, name='survey'),
+    path('webhook', webhook, name="webhook"),
     path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 ]
 

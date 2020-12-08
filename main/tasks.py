@@ -54,7 +54,7 @@ def send_money(survey_id, uuid):
 		print("Invalid link")
 
 	headers = {
-	    "Authorization": "Bearer FLWSECK-1bf181d6b2922c6e5840206ea1f7b3b6-X",
+	    "Authorization": f"Bearer {settings.RAVE_API_KEY}",
 	    "Content-Type": "application/json"
 	}
 
@@ -66,7 +66,6 @@ def send_money(survey_id, uuid):
 	    "currency": "NGN",
 	    "beneficiary_name": "Test Name",
 	    "reference": f"ESH-{random_alphanumeric()}",
-	    "callback_url": "https://webhook.site/b3e505b0-fe02-430e-a538-22bbbce8ce0d",
 	    "debit_currency": "NGN",
 	    "meta": {
 	        "first_name": "Test",

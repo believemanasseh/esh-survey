@@ -144,6 +144,7 @@ MEDIA_URL = ''
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MAILGUN_API_KEY = os.getenv('MAILGUN_API_KEY')
+RAVE_API_KEY = os.getenv('RAVE_API_KEY')
 DEFAULT_EMAIL = os.getenv('DEFAULT_EMAIL')
 SMS_USER = os.getenv('SMS_USER')
 SMS_PASSWORD = os.getenv('SMS_PASSWORD')

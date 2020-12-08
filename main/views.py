@@ -1,4 +1,6 @@
-from django.http import Http404
+from django.http import Http404, HttpResponse, HttpResponseForbidden
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -102,3 +104,31 @@ def survey(request, survey_id, uuid):
 		},
 		status=status.HTTP_400_BAD_REQUEST,
 	)
+
+
+@csrf_exempt
+@require_POST
+def webhook(request):
+	request_body = request.body
+	json_data= json.loads(request_body)
+
+	if json_data["data"]["status"] == "SUCCESSFUL":
+		try:
+			user_email = json_data["data"]["meta"]["email"]
+			patient = Patient.objects.get(email=user_email)
+		except ObjectDoesNotExist:
+			raise Http404
+
+		patient.is_paid = True
+		patient.save()
+
+		return HttpResponse(status=200)
+
+	elif json_data["data"]["status"] == "FAILED":
+
+		return HttpResponse(status=200)
+
+
+	return HttpResponse("Webhook url for ESH survey!")
+
+
