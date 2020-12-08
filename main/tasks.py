@@ -59,8 +59,8 @@ def send_money(survey_id, uuid):
 	}
 
 	payload = {
-	    "account_bank": "044",
-	    "account_number": "0690000040",
+	    "account_bank": patient.bank_name,
+	    "account_number": patient.account_number,
 	    "amount": patient.survey.reward_amount,
 	    "narration": "ESH Survey",
 	    "currency": "NGN",
@@ -68,8 +68,8 @@ def send_money(survey_id, uuid):
 	    "reference": f"ESH-{random_alphanumeric()}",
 	    "debit_currency": "NGN",
 	    "meta": {
-	        "first_name": "Test",
-	        "last_name": "Name",
+	        "first_name": patient.first_name,
+	        "last_name": patient.last_name,
 	        "email": patient.email,
 	        "mobile_number": patient.mobile_number,
 	    },

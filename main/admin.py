@@ -22,8 +22,8 @@ class AnswerAdmin(admin.ModelAdmin):
 
 @admin.register(models.Patient)
 class PatientAdmin(admin.ModelAdmin):
-	list_filter = ["uuid", "account_name", "bank_name", "is_used"]
-	list_display = ["uuid", "account_name", "bank_name", "is_used"]
+	list_filter = ["uuid", "last_name", "bank_name", "is_used"]
+	list_display = ["uuid", "last_name", "bank_name", "is_used"]
 
 
 admin.site.site_title = "ESH Survey"
