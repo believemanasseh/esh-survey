@@ -30,3 +30,5 @@ pip-delete-this-directory.txt
 *.log
 esh/
 db.sqlite3
+worker.py
+task.py

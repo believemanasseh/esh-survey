@@ -7,7 +7,6 @@ from rest_framework.decorators import api_view
 from drf_yasg2.utils import swagger_auto_schema
 from .models import Survey, Patient, Question, Answer
 from .serializers import QuestionSerializer, AnswerSerializer
-from . import tasks
 import uuid
 import json
 
@@ -57,7 +56,6 @@ def survey(request, survey_id, uuid):
 				"message": "Survey retreived successfully",
 				"title": questions[0].survey.title,
 				"description": questions[0].survey.description,
-				"logo": base_domain + str(questions[0].survey.logo),
 				"data": {"questions": serializer.data},
 			},
 			status=status.HTTP_200_OK,
@@ -85,8 +83,6 @@ def survey(request, survey_id, uuid):
 					patient=patient,
 					survey=survey,
 				)
-
-			tasks.send_acknowledgement(survey_id, uuid)
 
 			return Response(
 				{
