@@ -18,9 +18,6 @@ def send_survey_link(sender, instance=None, **kwargs):
 		survey_id = instance.survey.id
 
 		subject = "Complete Your Survey"
-		html_message = render_to_string(
-			"send_survey_link.html", {"survey_id": survey_id, "uuid": unique_id}
-		)
 
 		if instance.is_used is False:
 			response = session.post(
