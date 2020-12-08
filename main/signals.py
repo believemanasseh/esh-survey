@@ -17,10 +17,8 @@ def send_survey_link(sender, instance=None, **kwargs):
 		unique_id = instance.uuid
 		survey_id = instance.survey.id
 
-		subject = "Complete Your Survey"
-        html_message = render_to_string(
-                "send_survey.html", context=None
-        )
+        subject = "Complete Your Survey"
+        html_message = render_to_string("send_survey.html", context=None)
 		if instance.is_used is False:
 			response = session.post(
 				"https://api.mailgun.net/v3/sandbox5301a79097994dd5a621705473034cc2.mailgun.org/messages",
