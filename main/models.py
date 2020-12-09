@@ -48,6 +48,7 @@ class Patient(models.Model):
 	bank_name = models.TextField(choices=BANKS, default='')
 	is_used = models.BooleanField(default=False)
 	is_paid = models.BooleanField(default=False)
+	sent_email = models.BooleanField(default=False)
 	last_modified = models.DateTimeField(auto_now=True)
 	survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
 

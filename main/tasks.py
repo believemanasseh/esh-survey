@@ -19,19 +19,20 @@ def send_acknowledgement(survey_id, uuid):
 	html_message = render_to_string("send_acknowledgement.html", context=None)
 
 	if patient.is_used is False:
-		response = session.post(
-			settings.MAILGUN_API_URL,
-			auth=("api", settings.MAILGUN_API_KEY),
-			data={
-				"from": settings.DEFAULT_EMAIL,
-				"to": [patient.email],
-				"subject": "ESH Survey",
-				"text": html_message,
-			},
-		)
-		
+		pass
 	else:
 		print("Invalid link")
+
+	response = session.post(
+		settings.MAILGUN_API_URL,
+		auth=("api", settings.MAILGUN_API_KEY),
+		data={
+			"from": settings.DEFAULT_EMAIL,
+			"to": [patient.email],
+			"subject": "ESH Survey",
+			"text": html_message,
+		},
+	)
 
 
 """
@@ -63,13 +64,12 @@ def random_alphanumeric(length=6):
 	return result
 
 
-@background(schedule=12)
+@background(schedule=15)
 def send_money(survey_id, uuid):
 	patient = Patient.objects.get(uuid=uuid, survey__id=survey_id)
-	is_used = patient.is_used
-	is_paid = patient.is_paid
 	
-	if is_used is False and is_paid is False:
+	if patient.is_used is False and patient.is_paid is False:
+
 		headers = {
 			"Authorization": f"Bearer {settings.RAVE_API_KEY}",
 			"Content-Type": "application/json",
@@ -98,11 +98,8 @@ def send_money(survey_id, uuid):
 			headers=headers,
 		)
 
-		is_used = True
-		is_paid = True
+		patient.is_used = True
+		patient.is_paid = True
 		patient.save()
 
 		print(req.json())
-
-	else:
-		print("Invalid link")
