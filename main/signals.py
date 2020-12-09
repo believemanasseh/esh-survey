@@ -17,7 +17,7 @@ def send_survey_link(sender, instance=None, **kwargs):
 		html_message = render_to_string("send_survey_link.html", context={"uuid": unique_id, "survey_id": survey_id})
 		if instance.sent_email is False:
 			response = session.post(
-				"https://api.mailgun.net/v3/sandbox5301a79097994dd5a621705473034cc2.mailgun.org/messages",
+				settings.MAILGUN_API_URL,
 				auth=("api", settings.MAILGUN_API_KEY),
 				data={
 					"from": settings.DEFAULT_EMAIL,

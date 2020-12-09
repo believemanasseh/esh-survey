@@ -14,25 +14,25 @@ from .models import Patient
 
 @background(schedule=10)
 def send_acknowledgement(survey_id, uuid):
-	patient = Patient.objects.get(uuid=uuid, survey__id=survey_id)
+    patient = Patient.objects.get(uuid=uuid, survey__id=survey_id)
 
-	html_message = render_to_string("send_acknowledgement.html", context=None)
+    html_message = render_to_string("send_acknowledgement.html", context=None)
 
-	if patient.is_used is False:
-		pass
-	else:
-		print("Invalid link")
+    if patient.is_used is False:
+        pass
+    else:
+        print("Invalid link")
 
-	response = session.post(
-		settings.MAILGUN_API_URL,
-		auth=("api", settings.MAILGUN_API_KEY),
-		data={
-			"from": settings.DEFAULT_EMAIL,
-			"to": [patient.email],
-			"subject": "ESH Survey",
-			"text": html_message,
-		},
-	)
+    response = session.post(
+        settings.MAILGUN_API_URL,
+        auth=("api", settings.MAILGUN_API_KEY),
+        data={
+            "from": settings.DEFAULT_EMAIL,
+            "to": [patient.email],
+            "subject": "ESH Survey",
+            "text": html_message,
+        },
+    )
 
 
 """
@@ -58,48 +58,49 @@ def send_sms(survey_id, uuid):
 	print(response.text)
 """
 
+
 def random_alphanumeric(length=6):
-	str_ = string.ascii_lowercase + string.digits
-	result = "".join((random.choice(str_) for i in range(length)))
-	return result
+    str_ = string.ascii_lowercase + string.digits
+    result = "".join((random.choice(str_) for i in range(length)))
+    return result
 
 
 @background(schedule=15)
 def send_money(survey_id, uuid):
-	patient = Patient.objects.get(uuid=uuid, survey__id=survey_id)
-	
-	if patient.is_used is False and patient.is_paid is False:
+    patient = Patient.objects.get(uuid=uuid, survey__id=survey_id)
 
-		headers = {
-			"Authorization": f"Bearer {settings.RAVE_API_KEY}",
-			"Content-Type": "application/json",
-		}
+    if patient.is_used is False and patient.is_paid is False:
 
-		payload = {
-			"account_bank": patient.bank_name,
-			"account_number": patient.account_number,
-			"amount": patient.survey.reward_amount,
-			"narration": "ESH Survey",
-			"currency": "NGN",
-			"beneficiary_name": "Test Name",
-			"reference": f"ESH-{random_alphanumeric()}",
-			"debit_currency": "NGN",
-			"meta": {
-				"first_name": patient.first_name,
-				"last_name": patient.last_name,
-				"email": patient.email,
-				"mobile_number": patient.mobile_number,
-			},
-		}
+        headers = {
+            "Authorization": f"Bearer {settings.RAVE_API_KEY}",
+            "Content-Type": "application/json",
+        }
 
-		req = requests.post(
-			"https://api.flutterwave.com/v3/transfers",
-			data=json.dumps(payload),
-			headers=headers,
-		)
+        payload = {
+            "account_bank": patient.bank_name,
+            "account_number": patient.account_number,
+            "amount": patient.survey.reward_amount,
+            "narration": "ESH Survey",
+            "currency": "NGN",
+            "beneficiary_name": "Test Name",
+            "reference": f"ESH-{random_alphanumeric()}",
+            "debit_currency": "NGN",
+            "meta": {
+                "first_name": patient.first_name,
+                "last_name": patient.last_name,
+                "email": patient.email,
+                "mobile_number": patient.mobile_number,
+            },
+        }
 
-		patient.is_used = True
-		patient.is_paid = True
-		patient.save()
+        req = requests.post(
+            "https://api.flutterwave.com/v3/transfers",
+            data=json.dumps(payload),
+            headers=headers,
+        )
 
-		print(req.json())
+        patient.is_used = True
+        patient.is_paid = True
+        patient.save()
+
+        print(req.json())
