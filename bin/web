@@ -1,0 +1,2 @@
+#! /bin/sh
+gunicorn root.wsgi & python manage.py process_tasks

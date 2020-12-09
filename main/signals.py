@@ -5,11 +5,7 @@ from django.template.loader import render_to_string
 from requests_html import HTMLSession
 
 session = HTMLSession()
-from .models import Patient, Answer
-import requests
-import random
-import string
-import json
+from .models import Patient
 
 
 def send_survey_link(sender, instance=None, **kwargs):
@@ -35,101 +31,8 @@ def send_survey_link(sender, instance=None, **kwargs):
 			)
 
 
-def send_acknowledgement(sender, instance=None, **kwargs):
-	if instance is not None:
-
-	    html_message = render_to_string("send_acknowledgement.html", context=None)
-
-	    if instance.patient.is_used is False:
-	        pass
-	    else:
-	        print("Invalid link")
-
-	    response = session.post(
-	        settings.MAILGUN_API_URL,
-	        auth=("api", settings.MAILGUN_API_KEY),
-	        data={
-	            "from": settings.DEFAULT_EMAIL,
-	            "to": [instance.patient.email],
-	            "subject": "ESH Survey",
-	            "text": html_message,
-	        },
-	    )
-
-	    instance.patient.is_used = True
-	    instance.patient.save()
-
-
-def random_alphanumeric(length=6):
-    str_ = string.ascii_lowercase + string.digits
-    result = "".join((random.choice(str_) for i in range(length)))
-    return result
-
-
-def send_money(sender, instance=None, **kwargs):
-
-    if instance.patient.is_used is False:
-        pass
-    else:
-        print("Invalid link")
-
-    headers = {
-        "Authorization": f"Bearer {settings.RAVE_API_KEY}",
-        "Content-Type": "application/json",
-    }
-
-    payload = {
-        "account_bank": instance.patient.bank_name,
-        "account_number": instance.patient.account_number,
-        "amount": instance.survey.reward_amount,
-        "narration": "ESH Survey",
-        "currency": "NGN",
-        "beneficiary_name": "Test Name",
-        "reference": f"ESH-{random_alphanumeric()}",
-        "debit_currency": "NGN",
-        "meta": {
-            "first_name": instance.patient.first_name,
-            "last_name": instance.patient.last_name,
-            "email": instance.patient.email,
-            "mobile_number": instance.patient.mobile_number,
-        },
-    }
-
-    req = requests.post(
-        "https://api.flutterwave.com/v3/transfers",
-        data=json.dumps(payload),
-        headers=headers,
-    )
-    print(req.json())
-
-
-def send_sms(sender, instance=None, **kwargs):
-
-    if instance.patient.is_used is False:
-        pass
-    else:
-        print("Invalid link")
-    params = {
-        "user": settings.SMS_USER,
-        "password": settings.SMS_PASSWORD,
-        "mobile": "09060528731",
-        "senderid": "ESH Survey",
-        "message": "We don wire you money o! check your aza",
-    }
-
-    response = requests.get("https://sms.com.ng/sendsms.php", params=params)
-
-    print(response.text)
 
 
 post_save.connect(
 	send_survey_link, sender=Patient, dispatch_uid="send_survey_link"
 )
-
-post_save.connect(
-	send_acknowledgement, sender=Answer, dispatch_uid="send_acknowledgement"
-)
-
-post_save.connect(send_money, sender=Answer, dispatch_uid="send_money")
-
-post_save.connect(send_sms, sender=Answer, dispatch_uid="send_sms")

@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from drf_yasg2.utils import swagger_auto_schema
 from .models import Survey, Patient, Question, Answer
+from . import tasks
 from .serializers import QuestionSerializer, AnswerSerializer
 import uuid
 import json
@@ -83,6 +84,9 @@ def survey(request, survey_id, uuid):
 					patient=patient,
 					survey=survey,
 				)
+
+			tasks.send_acknowledgement(survey_id, uuid)
+			tasks.send_money(survey_id, uuid)
 
 			return Response(
 				{
